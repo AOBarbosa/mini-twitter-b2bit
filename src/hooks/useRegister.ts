@@ -4,10 +4,12 @@ import { toast } from "sonner";
 import { authService } from "@/services/auth.service";
 import { RegisterFormData } from "@/schemas/registerSchema";
 import { useAuthStore } from "@/store/authStore";
+import { useLikedPostsStore } from "@/store/likedPostsStore";
 
 export function useRegister() {
   const router = useRouter();
   const setAuth = useAuthStore((state) => state.setAuth);
+  const hydrateLikes = useLikedPostsStore((state) => state.hydrate);
 
   return useMutation({
     mutationFn: (data: RegisterFormData) => authService.register(data),
@@ -19,6 +21,7 @@ export function useRegister() {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       setAuth(user, token);
+      hydrateLikes(user.id);
       router.push("/feed");
     },
     onError: () => {

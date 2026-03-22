@@ -7,6 +7,7 @@ import { Post } from "@/types";
 import { useLikePost } from "@/hooks/useLikePost";
 import { useDeletePost } from "@/hooks/useDeletePost";
 import { useUpdatePost } from "@/hooks/useUpdatePost";
+import { useLikedPostsStore } from "@/store/likedPostsStore";
 import { Button } from "@/components/ui/button";
 
 interface PostCardProps {
@@ -24,8 +25,10 @@ export function PostCard({
   const { mutate: toggleLike } = useLikePost();
   const { mutate: deletePost } = useDeletePost();
   const { mutate: updatePost, isPending: isUpdating } = useUpdatePost();
+  const isLiked = useLikedPostsStore((state) => state.isLiked);
+  const setLikedInStore = useLikedPostsStore((state) => state.setLiked);
 
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(() => isLiked(post.id));
   const [count, setCount] = useState(post.likesCount);
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(post.title);
@@ -42,13 +45,9 @@ export function PostCard({
     }
     toggleLike(post.id, {
       onSuccess: (data) => {
-        if (data.liked) {
-          setLiked(true);
-          setCount((prev) => prev + 1);
-        } else {
-          setLiked(false);
-          setCount((prev) => Math.max(0, prev - 1));
-        }
+        setLiked(data.liked);
+        setCount((prev) => (data.liked ? prev + 1 : Math.max(0, prev - 1)));
+        if (currentUserId) setLikedInStore(post.id, data.liked, currentUserId);
       },
     });
   };
@@ -173,7 +172,7 @@ export function PostCard({
           title={liked ? "Descurtir" : "Curtir"}
         >
           <Heart
-            className={`h-5 w-5 ${
+            className={`h-5 w-5 cursor-pointer ${
               liked ? "fill-primary-red text-primary-red" : "text-primary-red"
             }`}
           />

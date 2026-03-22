@@ -45,7 +45,9 @@ export function LoginForm() {
             <SmsIcon className="text-primary-gray dark:text-text-secondary-dark" />
           </div>
           {errors.email && (
-            <p className="text-xs text-primary-red mt-1">{errors.email.message}</p>
+            <p className="text-xs text-primary-red mt-1">
+              {errors.email.message}
+            </p>
           )}
         </Field>
 
@@ -73,7 +75,9 @@ export function LoginForm() {
             </button>
           </div>
           {errors.password && (
-            <p className="text-xs text-primary-red mt-1">{errors.password.message}</p>
+            <p className="text-xs text-primary-red mt-1">
+              {errors.password.message}
+            </p>
           )}
         </Field>
 
@@ -81,7 +85,7 @@ export function LoginForm() {
           <Button
             type="submit"
             disabled={isPending}
-            className="bg-primary-blue text-primary-white w-full h-14 rounded-full font-bold disabled:opacity-60"
+            className=" cursor-pointer bg-primary-blue text-primary-white w-full h-14 rounded-full font-bold disabled:opacity-60"
           >
             {isPending ? "Entrando..." : "Continuar"}
           </Button>
@@ -89,8 +93,13 @@ export function LoginForm() {
 
         <p className="text-center text-xs text-primary-gray dark:text-text-secondary-dark">
           Ao clicar em continuar, você concorda com nossos <br />
-          <span className="underline cursor-pointer">Termos de Serviço</span> e{" "}
-          <span className="underline cursor-pointer">Política de Privacidade</span>.
+          <span className="underline cursor-pointer">
+            Termos de Serviço
+          </span> e{" "}
+          <span className="underline cursor-pointer">
+            Política de Privacidade
+          </span>
+          .
         </p>
       </FieldGroup>
     </form>

@@ -62,12 +62,6 @@ describe("LoginForm", () => {
     });
   });
 
-  it("displays API error message", () => {
-    mockUseLogin({ error: new Error("Credenciais inválidas") });
-    render(<LoginForm />);
-    expect(screen.getByText("E-mail ou senha inválidos.")).toBeInTheDocument();
-  });
-
   it("disables button and shows 'Entrando...' while loading", () => {
     mockUseLogin({ isPending: true });
     render(<LoginForm />);

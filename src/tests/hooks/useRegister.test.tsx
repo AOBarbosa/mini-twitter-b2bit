@@ -7,12 +7,25 @@ import { authService } from "@/services/auth.service";
 vi.mock("@/services/auth.service", () => ({
   authService: {
     register: vi.fn(),
+    login: vi.fn(),
   },
 }));
 
 const mockPush = vi.fn();
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush }),
+}));
+
+const mockSetAuth = vi.fn();
+vi.mock("@/store/authStore", () => ({
+  useAuthStore: (sel: (s: object) => unknown) =>
+    sel({ setAuth: mockSetAuth }),
+}));
+
+const mockHydrateLikes = vi.fn();
+vi.mock("@/store/likedPostsStore", () => ({
+  useLikedPostsStore: (sel: (s: object) => unknown) =>
+    sel({ hydrate: mockHydrateLikes }),
 }));
 
 function wrapper({ children }: { children: React.ReactNode }) {
@@ -34,6 +47,10 @@ describe("useRegister", () => {
       id: 1,
       name: "André",
       email: "andre@email.com",
+    });
+    vi.mocked(authService.login).mockResolvedValueOnce({
+      token: "fake-token",
+      user: { id: 1, name: "André", email: "andre@email.com" },
     });
 
     const { result } = renderHook(() => useRegister(), { wrapper });

@@ -72,8 +72,8 @@ describe("Register flow", () => {
     cy.wait("@registerConflict");
 
     cy.url().should("include", "/login");
-    cy.contains("Usuário já cadastrado ou dados inválidos.").should(
-      "be.visible",
-    );
+    cy.get("[data-sonner-toaster]")
+      .contains("E-mail já cadastrado ou dados inválidos.")
+      .should("be.visible");
   });
 });

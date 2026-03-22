@@ -104,14 +104,6 @@ describe("RegisterForm", () => {
     });
   });
 
-  it("displays API error message", () => {
-    mockUseRegister({ error: new Error("Usuário já cadastrado") });
-    render(<RegisterForm />);
-    expect(
-      screen.getByText("Usuário já cadastrado ou dados inválidos."),
-    ).toBeInTheDocument();
-  });
-
   it("disables button and shows 'Cadastrando...' while loading", () => {
     mockUseRegister({ isPending: true });
     render(<RegisterForm />);

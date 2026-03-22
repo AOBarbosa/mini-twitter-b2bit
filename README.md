@@ -65,7 +65,7 @@ docker build \
   --build-arg NEXT_PUBLIC_API_URL=http://localhost:3000 \
   -t mini-twitter .
 
-docker run -p 3001:3001 mini-twitter
+docker run -d -p 3001:3001 mini-twitter
 ```
 
 A aplicação estará disponível em (http://localhost:3001).

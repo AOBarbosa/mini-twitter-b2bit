@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { FeedHeader } from "@/components/feed/feed-header";
 import { CreatePostForm } from "@/components/feed/create-post-form";
 import { PostCard } from "@/components/feed/post-card";
+import { PostCardSkeleton } from "@/components/feed/post-card-skeleton";
 import { FeedFooter } from "@/components/feed/feed-footer";
 import { usePosts } from "@/hooks/usePosts";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -68,13 +69,9 @@ export default function FeedPage() {
       <main className="flex-1 max-w-2xl mx-auto w-full px-4 py-6 flex flex-col gap-4">
         <CreatePostForm isAuthenticated={isAuthenticated} />
 
-        {isLoading && (
-          <div className="flex justify-center py-8">
-            <span className="text-text-secondary-dark text-sm">
-              Carregando posts...
-            </span>
-          </div>
-        )}
+        {isLoading && Array.from({ length: 5 }).map((_, i) => (
+          <PostCardSkeleton key={i} />
+        ))}
 
         {!isLoading && !isError && posts.length === 0 && (
           <div className="flex justify-center py-8">
@@ -93,12 +90,10 @@ export default function FeedPage() {
           />
         ))}
 
-        <div ref={bottomRef} className="py-2 flex justify-center">
-          {isFetchingNextPage && (
-            <span className="text-text-secondary-dark text-sm">
-              Carregando mais...
-            </span>
-          )}
+        <div ref={bottomRef} className="flex flex-col gap-4">
+          {isFetchingNextPage && Array.from({ length: 2 }).map((_, i) => (
+            <PostCardSkeleton key={i} />
+          ))}
         </div>
       </main>
       <FeedFooter />

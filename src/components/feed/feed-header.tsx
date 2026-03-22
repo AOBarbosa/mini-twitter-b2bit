@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
 import { Search, LogOut } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { useLogout } from "@/hooks/useLogout";
 import { Button } from "@/components/ui/button";
@@ -18,7 +20,11 @@ export function FeedHeader({
   onSearchChange,
   isAuthenticated,
 }: FeedHeaderProps) {
-  const { mutate: logout, isPending } = useLogout();
+  const { mutate: logout, isPending, isSuccess } = useLogout();
+
+  useEffect(() => {
+    if (isSuccess) toast.success("Você saiu da sua conta.");
+  }, [isSuccess]);
 
   return (
     <header className="sticky top-0 z-50 bg-white dark:bg-secondary-blue border-b border-gray-200 dark:border-text-secondary-dark/20">
@@ -48,10 +54,10 @@ export function FeedHeader({
               data-testid="logout-button"
               onClick={() => logout()}
               disabled={isPending}
-              className="p-2 rounded-full border border-gray-200 dark:border-text-secondary-dark/30 text-primary-gray dark:text-text-secondary-dark hover:text-primary-red dark:hover:text-primary-red transition-colors disabled:opacity-60"
+              className="p-2 cursor-pointer rounded-full border border-gray-200 dark:border-text-secondary-dark/30 text-primary-gray dark:text-text-secondary-dark hover:text-primary-red dark:hover:text-primary-red transition-colors disabled:opacity-60"
               title="Sair"
             >
-              <LogOut className="h-5 w-5" />
+              <LogOut className="h-5 w-5 cursor-pointer" />
             </button>
           ) : (
             <>

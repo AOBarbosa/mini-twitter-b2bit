@@ -12,7 +12,7 @@ import { useRegister } from "@/hooks/useRegister";
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { mutate: register, isPending, error } = useRegister();
+  const { mutate: register, isPending } = useRegister();
 
   const {
     register: registerField,
@@ -104,12 +104,6 @@ export function RegisterForm() {
             </p>
           )}
         </Field>
-
-        {error && (
-          <p className="text-xs text-primary-red text-center">
-            Usuário já cadastrado ou dados inválidos.
-          </p>
-        )}
 
         <Field orientation="horizontal">
           <Button

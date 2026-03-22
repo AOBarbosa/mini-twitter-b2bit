@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { toast } from "sonner";
 import { FeedHeader } from "@/components/feed/feed-header";
 import { CreatePostForm } from "@/components/feed/create-post-form";
 import { PostCard } from "@/components/feed/post-card";
@@ -31,6 +32,10 @@ export default function FeedPage() {
     }, 400);
     return () => clearTimeout(timer);
   }, [search]);
+
+  useEffect(() => {
+    if (isError) toast.error("Erro ao carregar posts. Tente novamente.");
+  }, [isError]);
 
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -67,14 +72,6 @@ export default function FeedPage() {
           <div className="flex justify-center py-8">
             <span className="text-text-secondary-dark text-sm">
               Carregando posts...
-            </span>
-          </div>
-        )}
-
-        {isError && (
-          <div className="flex justify-center py-8">
-            <span className="text-primary-red text-sm">
-              Erro ao carregar posts. Tente novamente.
             </span>
           </div>
         )}

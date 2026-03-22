@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { postService } from "@/services/post.service";
 
 interface CreatePostPayload {
@@ -14,6 +15,9 @@ export function useCreatePost() {
     mutationFn: (data: CreatePostPayload) => postService.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+    onError: () => {
+      toast.error("Erro ao criar post. Tente novamente.");
     },
   });
 }

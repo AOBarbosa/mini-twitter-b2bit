@@ -12,7 +12,7 @@ import { useLogin } from "@/hooks/useLogin";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { mutate: login, isPending, error } = useLogin();
+  const { mutate: login, isPending } = useLogin();
 
   const {
     register,
@@ -76,12 +76,6 @@ export function LoginForm() {
             <p className="text-xs text-primary-red mt-1">{errors.password.message}</p>
           )}
         </Field>
-
-        {error && (
-          <p className="text-xs text-primary-red text-center">
-            E-mail ou senha inválidos.
-          </p>
-        )}
 
         <Field orientation="horizontal">
           <Button
